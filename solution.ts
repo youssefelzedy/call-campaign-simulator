@@ -1,4 +1,4 @@
-import { CallHandler, CampaignConfig, CampaignState, CampaignStatus, ICampaign, IClock } from "./interfaces";
+import type { CallHandler, CampaignConfig, CampaignState, CampaignStatus, ICampaign, IClock } from "./interfaces.js";
 
 export class Campaign implements ICampaign {
     private config: CampaignConfig;
@@ -67,7 +67,7 @@ export class Campaign implements ICampaign {
             return;
         }
 
-if (this.pendingNumbers.length === 0 && this.pendingRetries === 0) {
+        if (this.pendingNumbers.length === 0 && this.pendingRetries === 0) {
             if (this.activeCalls === 0) {
                 this.state = "completed";
             }
@@ -86,7 +86,7 @@ if (this.pendingNumbers.length === 0 && this.pendingRetries === 0) {
 
     private getMsUntilNextStartTime(): number {
         const now = new Date(this.clock.now());
-        const [startHour, startMinute] = this.config.startTime.split(':').map(Number);
+        const [startHour = 0, startMinute = 0] = this.config.startTime.split(':').map(Number);
 
         const nextStartTime = new Date(now);
         nextStartTime.setUTCHours(startHour, startMinute, 0, 0);
